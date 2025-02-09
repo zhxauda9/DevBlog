@@ -11,14 +11,14 @@ router.post('/blogs', async (req, res) => {
     try {
         const { title, body, author } = req.body;
         if (!title || !body) {
-            return res.status(400).json({ message: "Заголовок и тело обязательны" });
+            return res.status(400).json({ message: "The title and body are required" });
         }
 
         const blog = new Blog({ title, body, author });
         await blog.save();
         res.status(201).json(blog);
     } catch (error) {
-        res.status(500).json({ message: "Ошибка сервера", error });
+        res.status(500).json({ message: "Server error", error });
     }
 });
 
@@ -27,42 +27,40 @@ router.get('/blogs', async (req, res) => {
         const blogs = await Blog.find();
         res.json(blogs);
     } catch (error) {
-        res.status(500).json({ message: "Ошибка сервера", error });
+        res.status(500).json({ message: "Server error", error });
     }
 });
 
-// ✅ GET /api/blogs/:id → Получить один блог
 router.get('/blogs/:id', async (req, res) => {
     try {
         const blog = await Blog.findById(req.params.id);
-        if (!blog) return res.status(404).json({ message: "Блог не найден" });
+        if (!blog) return res.status(404).json({ message: "The blog was not found" });
         res.json(blog);
     } catch (error) {
-        res.status(500).json({ message: "Ошибка сервера", error });
+        res.status(500).json({ message: "Server error", error });
     }
 });
 
-// ✅ PUT /api/blogs/:id → Обновить блог
 router.put('/blogs/:id', async (req, res) => {
     try {
         const { title, body, author } = req.body;
         const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, { title, body, author }, { new: true });
 
-        if (!updatedBlog) return res.status(404).json({ message: "Блог не найден" });
+        if (!updatedBlog) return res.status(404).json({ message: "Server error" });
         res.json(updatedBlog);
     } catch (error) {
-        res.status(500).json({ message: "Ошибка сервера", error });
+        res.status(500).json({ message: "Server error", error });
     }
 });
 
 router.delete('/blogs/:id', async (req, res) => {
     try {
         const deletedBlog = await Blog.findByIdAndDelete(req.params.id);
-        if (!deletedBlog) return res.status(404).json({ message: "Блог не найден" });
+        if (!deletedBlog) return res.status(404).json({ message: "The blog was not found" });
 
-        res.json({ message: "Блог удален" });
+        res.json({ message: "Blog deleted" });
     } catch (error) {
-        res.status(500).json({ message: "Ошибка сервера", error });
+        res.status(500).json({ message: "Server error", error });
     }
 });
 

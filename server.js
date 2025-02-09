@@ -10,24 +10,20 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// 📁 Раздаем статические файлы из папки "web"
 app.use(express.static(path.join(__dirname, 'web')));
 
-// 📌 Открываем index.html при GET /
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'web', 'index.html'));
 });
 
-// 📌 Подключение к MongoDB
 mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log('✅ Подключено к MongoDB'))
-    .catch(error => console.error('❌ Ошибка MongoDB:', error));
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(error => console.error('MongoDB error:', error));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`🚀 Сервер запущен на http://localhost:${PORT}`);
+    console.log(`Server started on http://localhost:${PORT}`);
 });
 
-// 📁 Подключаем маршруты блога
 const blogRoutes = require('./routes/blogRoutes');
 app.use('/api', blogRoutes);

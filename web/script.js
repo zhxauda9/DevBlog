@@ -17,21 +17,20 @@ async function loadBlogs() {
             <small>Автор: <span contenteditable="false" id="author-${blog._id}">${blog.author || "Аноним"}</span></small><br>
             <button onclick="editBlog('${blog._id}')">Edit</button>
             <button onclick="updateBlog('${blog._id}')" style="display:none;" id="update-${blog._id}">Update</button>
-            <button onclick="deleteBlog('${blog._id}')">Удалить</button>
+            <button onclick="deleteBlog('${blog._id}')">Delete</button>
         `;
 
         container.appendChild(blogElement);
     });
 }
 
-// Добавление нового блога
 async function addBlog() {
     const title = document.getElementById("title").value;
     const body = document.getElementById("body").value;
     const author = document.getElementById("author").value;
 
     if (!title || !body) {
-        alert("Заполните заголовок и текст!");
+        alert("Fill in the title and text!");
         return;
     }
 
@@ -44,17 +43,14 @@ async function addBlog() {
     if (response.ok) {
         loadBlogs();
     } else {
-        alert("Ошибка при добавлении блога");
+        alert("Error adding blog");
     }
 }
-
-// Удаление блога
 async function deleteBlog(id) {
     await fetch(`${API_URL}/${id}`, { method: "DELETE" });
     loadBlogs();
 }
 
-// Функция включения редактирования
 function editBlog(id) {
     document.getElementById(`title-${id}`).contentEditable = "true";
     document.getElementById(`body-${id}`).contentEditable = "true";
@@ -63,7 +59,6 @@ function editBlog(id) {
     document.getElementById(`update-${id}`).style.display = "inline";
 }
 
-// Функция обновления блога
 async function updateBlog(id) {
     const title = document.getElementById(`title-${id}`).innerText;
     const body = document.getElementById(`body-${id}`).innerText;
@@ -81,9 +76,7 @@ async function updateBlog(id) {
         document.getElementById(`author-${id}`).contentEditable = "false";
         document.getElementById(`update-${id}`).style.display = "none";
     } else {
-        alert("Ошибка при обновлении блога");
+        alert("Error updating blog");
     }
 }
-
-// Загружаем блоги при старте
 loadBlogs();

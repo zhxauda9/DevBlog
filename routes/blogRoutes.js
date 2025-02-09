@@ -1,8 +1,12 @@
 const express = require('express');
 const Blog = require('../models/blog');
+const path = require('path');
 const router = express.Router();
 
-// 📌 Создание блога (POST /blogs)
+router.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../web', 'index.html'));
+});
+
 router.post('/blogs', async (req, res) => {
     try {
         const { title, body, author } = req.body;
@@ -18,7 +22,6 @@ router.post('/blogs', async (req, res) => {
     }
 });
 
-// 📌 Получение всех блогов (GET /blogs)
 router.get('/blogs', async (req, res) => {
     try {
         const blogs = await Blog.find();
@@ -28,7 +31,7 @@ router.get('/blogs', async (req, res) => {
     }
 });
 
-// 📌 Получение одного блога по ID (GET /blogs/:id)
+// ✅ GET /api/blogs/:id → Получить один блог
 router.get('/blogs/:id', async (req, res) => {
     try {
         const blog = await Blog.findById(req.params.id);
@@ -39,7 +42,7 @@ router.get('/blogs/:id', async (req, res) => {
     }
 });
 
-// 📌 Обновление блога (PUT /blogs/:id)
+// ✅ PUT /api/blogs/:id → Обновить блог
 router.put('/blogs/:id', async (req, res) => {
     try {
         const { title, body, author } = req.body;
@@ -52,7 +55,6 @@ router.put('/blogs/:id', async (req, res) => {
     }
 });
 
-// 📌 Удаление блога (DELETE /blogs/:id)
 router.delete('/blogs/:id', async (req, res) => {
     try {
         const deletedBlog = await Blog.findByIdAndDelete(req.params.id);

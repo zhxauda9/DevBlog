@@ -23,11 +23,5 @@ A modern blog platform with a **dark theme**, built with **Node.js, MongoDB, and
 3️⃣ Start backend: `node server.js`  
 4️⃣ Open `index.html` in your browser
 
-## 🔥 Future Improvements
-- 📝 **User Authentication** – Login & register system
-- 💾 **Persistent Storage** – Keep posts after refresh
-- 🎨 **Theme Customization** – Light & dark modes
-
----
 
 📌 **Enjoy blogging!** ✨  
